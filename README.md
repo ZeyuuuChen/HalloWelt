@@ -21,11 +21,11 @@ Instead of memorizing flashcards, players step into a rich, interactive world wh
 
 ## 📸 Screenshots & Demo
 
-> **💡 Note to developer:** *Replace the placeholders below with actual screenshots or GIFs of your game!*
-
-| 🏙️ Map Exploration | 🖱️ Vocabulary Interaction | 💬 NPC Dialogue |
+| Map Interface | Scene Interface | Vocabulary Learning Interface |
 | :---: | :---: | :---: |
-| ![Exploration](https://via.placeholder.com/300x170.png?text=Map+Exploration) | ![Vocab](https://via.placeholder.com/300x170.png?text=Click+to+Learn) | ![NPC](https://via.placeholder.com/300x170.png?text=NPC+Conversation) |
+| ![Map Interface](4.png) | ![Scene Interface](1.png) | ![Vocabulary Learning Interface](2.png) |
+| **Dialogue Interface** | **Vocabulary Library** | |
+| ![Dialogue Interface](5.png) | ![Vocabulary Library](3.png) | |
 
 ---
 
