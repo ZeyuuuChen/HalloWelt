@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>München Adventure — Learn German</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="game-container">
+<div class="game-frame">
+
+  <!-- ══════════════════════════════════════════════════════
+       TITLE SCREEN
+       ══════════════════════════════════════════════════════ -->
+  <div id="screen-title" class="screen active">
+    <div class="title-buildings">
+      <svg viewBox="0 0 900 130" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
+        <rect x="30" y="35" width="55" height="95" fill="rgba(255,255,255,0.13)"/>
+        <ellipse cx="57" cy="33" rx="22" ry="34" fill="rgba(255,255,255,0.18)"/>
+        <rect x="105" y="35" width="55" height="95" fill="rgba(255,255,255,0.13)"/>
+        <ellipse cx="132" cy="33" rx="22" ry="34" fill="rgba(255,255,255,0.18)"/>
+        <rect x="200" y="22" width="145" height="108" fill="rgba(255,255,255,0.10)"/>
+        <rect x="252" y="0" width="48" height="50" fill="rgba(255,255,255,0.14)"/>
+        <polygon points="252,0 276,-22 300,0" fill="rgba(255,255,255,0.18)"/>
+        <rect x="385" y="55" width="62" height="75" fill="rgba(255,255,255,0.10)"/>
+        <polygon points="385,55 416,30 448,55" fill="rgba(255,255,255,0.14)"/>
+        <rect x="462" y="45" width="72" height="85" fill="rgba(255,255,255,0.10)"/>
+        <polygon points="462,45 498,22 534,45" fill="rgba(255,255,255,0.14)"/>
+        <rect x="570" y="32" width="125" height="98" fill="rgba(255,255,255,0.10)"/>
+        <polygon points="570,32 632,4 695,32" fill="rgba(255,255,255,0.14)"/>
+        <rect x="730" y="40" width="145" height="90" fill="rgba(255,255,255,0.10)"/>
+        <rect x="730" y="18" width="145" height="28" fill="rgba(255,255,255,0.12)"/>
+        <rect x="0" y="118" width="900" height="12" fill="rgba(255,255,255,0.18)"/>
+      </svg>
+    </div>
+
+    <div class="title-art">🏙️</div>
+    <div class="title-de">München Abenteuer</div>
+    <div class="title-zh" data-i18n="game_subtitle">Explore Munich · Learn German</div>
+    <div class="title-tag" data-i18n="game_tagline">Click objects to learn · Talk to people · Collect vocabulary</div>
+    <button class="btn-start" onclick="Game.start()" data-i18n="start_btn">▶  Start Game</button>
+    <button class="lang-toggle" id="lang-toggle-btn" onclick="toggleLang()">中文</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       MAP SCREEN — Illustrated Munich Map
+       ══════════════════════════════════════════════════════ -->
+  <div id="screen-map" class="screen">
+    <div class="map-header">
+      <div class="map-header-left">
+        <h1>München 慕尼黑</h1>
+        <div class="map-header-sub" data-i18n="map_subtitle">Select a destination on the map</div>
+      </div>
+      <div class="map-header-right">
+        <button class="btn-lang-map" onclick="toggleLang()" id="lang-toggle-btn-map">中文</button>
+        <button class="btn-kb" onclick="Game.openKnowledge()">
+          📚 <span data-i18n="knowledge_btn">My Dictionary</span>
+          <span id="knowledge-badge-map"></span>
+        </button>
+      </div>
+    </div>
+    <!-- The illustrated SVG map is injected here by JS -->
+    <div class="map-svg-wrapper" id="map-svg-wrapper"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       SCENE SCREEN
+       ══════════════════════════════════════════════════════ -->
+  <div id="screen-scene" class="screen">
+    <div class="scene-nav">
+      <button class="btn-back" onclick="Game.goToMap()" data-i18n="back_btn">← Map</button>
+      <span id="scene-title"></span>
+      <button class="btn-kb-scene" onclick="Game.openKnowledge()">
+        📚 <span data-i18n="knowledge_btn">My Dictionary</span>
+        <span id="knowledge-badge"></span>
+      </button>
+    </div>
+    <div class="scene-wrapper">
+      <div id="scene-canvas" class="scene-canvas"></div>
+      <div class="scene-hint" id="scene-hint">⌨ WASD / Arrow keys to move  ·  E to interact  ·  Click objects to learn</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       OVERLAY: VOCABULARY CARD
+       ══════════════════════════════════════════════════════ -->
+  <div id="overlay-vocab" class="overlay hidden">
+    <div class="vocab-card">
+      <div class="vocab-close" onclick="Game.closeVocab()">✕</div>
+      <div class="vocab-header">
+        <span class="vocab-article" id="vocab-article"></span>
+        <span class="vocab-word" id="vocab-word"></span>
+      </div>
+      <div class="vocab-pronunciation" id="vocab-pronunciation"></div>
+      <div class="vocab-translations">
+        <div class="trans-box zh">
+          <div class="trans-lang">中文 ZH</div>
+          <div class="trans-text" id="vocab-chinese"></div>
+        </div>
+        <div class="trans-box en">
+          <div class="trans-lang">English EN</div>
+          <div class="trans-text" id="vocab-english"></div>
+        </div>
+      </div>
+      <div class="vocab-example" id="vocab-example-container">
+        <div class="example-de" id="vocab-example-de"></div>
+        <div class="example-zh" id="vocab-example-zh"></div>
+      </div>
+      <div class="vocab-footer">
+        <span class="vocab-category-tag" id="vocab-category"></span>
+        <div class="vocab-status-row">
+          <button class="status-btn" data-status="learned" onclick="markVocab('learned')" data-i18n="status_learned">✓ Know it</button>
+          <button class="status-btn" data-status="fuzzy"   onclick="markVocab('fuzzy')"   data-i18n="status_fuzzy">? Fuzzy</button>
+          <button class="status-btn" data-status="unknown" onclick="markVocab('unknown')" data-i18n="status_unknown">✗ Don't know</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       OVERLAY: NPC DIALOGUE
+       ══════════════════════════════════════════════════════ -->
+  <div id="overlay-dialogue" class="overlay hidden">
+    <div class="dialogue-box">
+      <div class="dialogue-header">
+        <div class="npc-avatar-dlg" id="npc-emoji"></div>
+        <div class="npc-info-dlg">
+          <div id="npc-name-dlg"></div>
+          <div id="npc-role-dlg"></div>
+        </div>
+        <button class="dlg-close" onclick="Game.closeDialogue()">✕</button>
+      </div>
+      <div class="dialogue-body">
+        <div class="dlg-speech">
+          <div id="dlg-german"></div>
+          <div id="dlg-chinese"></div>
+          <div id="dlg-english"></div>
+        </div>
+        <div id="dlg-options"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       OVERLAY: KNOWLEDGE BASE
+       ══════════════════════════════════════════════════════ -->
+  <div id="overlay-knowledge" class="overlay hidden">
+    <div class="knowledge-panel">
+      <div class="kb-header">
+        <div class="kb-title" data-i18n="kb_title">📚 My Vocabulary — Wörterbuch</div>
+        <button class="kb-close" onclick="Game.closeKnowledge()">✕</button>
+      </div>
+      <div class="kb-stats">
+        <div class="stats-row">
+          <div class="stat-chip">
+            <span class="stat-num" id="stat-words-seen">0</span>/<span id="stat-words-total">0</span>
+            &nbsp;<span id="stat-words-label" data-i18n="kb_words_seen">words seen</span>
+          </div>
+          <div class="stat-chip">
+            <span class="stat-num" id="stat-phrases-seen">0</span>/<span id="stat-phrases-total">0</span>
+            &nbsp;<span id="stat-phrases-label" data-i18n="kb_phrases_seen">phrases seen</span>
+          </div>
+          <div class="stat-chip">
+            ✓ <span class="stat-num" id="stat-learned">0</span>
+            &nbsp;<span id="stat-mastered-label" data-i18n="kb_mastered">mastered</span>
+          </div>
+        </div>
+        <div class="progress-row">
+          <div class="progress-bar"><div id="progress-bar-fill" style="width:0%"></div></div>
+          <span id="progress-pct">0%</span>
+        </div>
+        <div class="scene-progress-row" id="scene-progress"></div>
+      </div>
+      <div class="kb-controls">
+        <div class="kb-tabs">
+          <button class="kb-tab active" id="kb-tab-words" data-tab="words"
+                  onclick="Game.setKnowledgeTab('words')" data-i18n="kb_tab_words">Words</button>
+          <button class="kb-tab" id="kb-tab-phrases" data-tab="phrases"
+                  onclick="Game.setKnowledgeTab('phrases')" data-i18n="kb_tab_phrases">Phrases</button>
+        </div>
+        <div class="kb-filters">
+          <button class="kb-filter-btn active" data-filter="all"
+                  onclick="Game.setKnowledgeFilter('all')" data-i18n="kb_filter_all">All</button>
+          <button class="kb-filter-btn" data-filter="learned"
+                  onclick="Game.setKnowledgeFilter('learned')" data-i18n="kb_filter_learned">✓ Know</button>
+          <button class="kb-filter-btn" data-filter="fuzzy"
+                  onclick="Game.setKnowledgeFilter('fuzzy')" data-i18n="kb_filter_fuzzy">? Fuzzy</button>
+          <button class="kb-filter-btn" data-filter="unknown"
+                  onclick="Game.setKnowledgeFilter('unknown')" data-i18n="kb_filter_unknown">✗ Don't know</button>
+        </div>
+      </div>
+      <div id="kb-list"></div>
+    </div>
+  </div>
+
+</div><!-- .game-frame -->
+</div><!-- #game-container -->
+
+<script src="js/i18n.js"></script>
+<script src="js/data.js"></script>
+<script src="js/scenes.js"></script>
+<script src="js/player.js"></script>
+<script src="js/game.js"></script>
+<script>
+  // Inject the illustrated map SVG once DOM is ready
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('map-svg-wrapper').innerHTML = MAP_SVG;
+    // Second lang-toggle button on map mirrors the first
+    const btnMap = document.getElementById('lang-toggle-btn-map');
+    if (btnMap) btnMap.textContent = T[LANG.current === 'en' ? 'en' : 'zh'].lang_toggle;
+    // Mirror toggle
+    document.getElementById('lang-toggle-btn-map').addEventListener('click', () => {
+      const titleBtn = document.getElementById('lang-toggle-btn');
+      if (titleBtn) titleBtn.textContent = t('lang_toggle');
+    });
+  });
+</script>
+</body>
+</html>
