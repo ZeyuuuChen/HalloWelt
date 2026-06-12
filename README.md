@@ -23,9 +23,9 @@ Instead of memorizing flashcards, players step into a rich, interactive world wh
 
 | Map Interface | Scene Interface | Vocabulary Learning Interface |
 | :---: | :---: | :---: |
-| ![Map Interface](4.png) | ![Scene Interface](1.png) | ![Vocabulary Learning Interface](2.png) |
+| ![Map Interface](Pics/4.png) | ![Scene Interface](Pics/1.png) | ![Vocabulary Learning Interface](Pics/2.png) |
 | **Dialogue Interface** | **Vocabulary Library** | |
-| ![Dialogue Interface](5.png) | ![Vocabulary Library](3.png) | |
+| ![Dialogue Interface](Pics/5.png) | ![Vocabulary Library](Pics/3.png) | |
 
 ---
 
