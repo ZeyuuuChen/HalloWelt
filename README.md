@@ -1,6 +1,6 @@
 # 🌍 HalloWelt - A German Learning Adventure
 
-#### **Builders Club @TUM Hackathon   First Prize**
+#### **Builders Club @TUM Hackathon   1st Winner**
 
 https://luma.com/ckfirp0d?tk=HEUQc4
 
