@@ -13,6 +13,8 @@ https://luma.com/ckfirp0d?tk=HEUQc4
 
 Instead of memorizing flashcards, players step into a rich, interactive world where they can explore different maps, interact with their environment to learn vocabulary, and converse with NPCs to master everyday German sentences in context.
 
+**ONLINE GAME DEMO**：https://zeyuuuchen.github.io/#/games
+
 ---
 
 ## ✨ Core Features
