@@ -1,10 +1,9 @@
 # 🌍 HalloWelt - A German Learning Adventure
 
-#### **Builders Club @TUM Hackathon**
+#### **Builders Club @TUM Hackathon   First Prize**
 
 https://luma.com/ckfirp0d?tk=HEUQc4
 
-First Prize
 
 [![German Learning](https://img.shields.io/badge/Language-German-red.svg)](#)
 [![Educational Game](https://img.shields.io/badge/Genre-Educational%20Game-blue.svg)](#)
