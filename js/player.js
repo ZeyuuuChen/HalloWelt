@@ -127,10 +127,19 @@ const Player = {
     this.x = Math.max(30, Math.min(this.sceneW - 30, this.x));
     this.y = Math.max(this.groundY - 60, Math.min(this.groundY + 40, this.y));
 
-    // Camera: keep player roughly in center third of viewport
+    // Camera: fixed game viewport width.
     const vpW = 900;
-    const targetCam = this.x - vpW / 2;
-    this.camX = Math.max(0, Math.min(this.sceneW - vpW, targetCam));
+    const maxCam = Math.max(0, this.sceneW - vpW);
+    const screenX = this.x - this.camX;
+    const leftEdge = vpW * 0.35;
+    const rightEdge = vpW * 0.65;
+
+    if (screenX < leftEdge) {
+      this.camX -= leftEdge - screenX;
+    } else if (screenX > rightEdge) {
+      this.camX += screenX - rightEdge;
+    }
+    this.camX = Math.max(0, Math.min(maxCam, this.camX));
 
     // Proximity check
     this._checkProximity();
