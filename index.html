@@ -41,6 +41,7 @@
     <div class="title-zh" data-i18n="game_subtitle">Explore Munich · Learn German</div>
     <div class="title-tag" data-i18n="game_tagline">Click objects to learn · Talk to people · Collect vocabulary</div>
     <button class="btn-start" onclick="Game.start()" data-i18n="start_btn">▶  Start Game</button>
+    <button class="btn-study-title" onclick="Game.openStudy()">Study Mode</button>
     <button class="lang-toggle" id="lang-toggle-btn" onclick="toggleLang()">中文</button>
   </div>
 
@@ -55,14 +56,19 @@
       </div>
       <div class="map-header-right">
         <button class="btn-lang-map" onclick="toggleLang()" id="lang-toggle-btn-map">中文</button>
+        <button class="btn-level-map" id="map-mode-btn" onclick="Game.toggleMapMode()">Level Map</button>
+        <button class="btn-study" onclick="Game.openStudy()">Study</button>
+        <button class="btn-graph" onclick="Game.openGraph()">Graph</button>
+        <button class="btn-theory" onclick="Game.openTheory()">Theory</button>
         <button class="btn-kb" onclick="Game.openKnowledge()">
           📚 <span data-i18n="knowledge_btn">My Dictionary</span>
           <span id="knowledge-badge-map"></span>
         </button>
       </div>
     </div>
-    <!-- The illustrated SVG map is injected here by JS -->
+    <!-- The selected map SVG is injected here by JS -->
     <div class="map-svg-wrapper" id="map-svg-wrapper"></div>
+    <div class="review-dock" id="review-dock"></div>
   </div>
 
   <!-- ══════════════════════════════════════════════════════
@@ -72,6 +78,9 @@
     <div class="scene-nav">
       <button class="btn-back" onclick="Game.goToMap()" data-i18n="back_btn">← Map</button>
       <span id="scene-title"></span>
+      <button class="btn-mini-tool" onclick="Game.openStudy()">Study</button>
+      <button class="btn-mini-tool" onclick="Game.openGraph()">Graph</button>
+      <button class="btn-mini-tool" onclick="Game.openTheory()">Theory</button>
       <button class="btn-kb-scene" onclick="Game.openKnowledge()">
         📚 <span data-i18n="knowledge_btn">My Dictionary</span>
         <span id="knowledge-badge"></span>
@@ -79,6 +88,7 @@
     </div>
     <div class="scene-wrapper">
       <div id="scene-canvas" class="scene-canvas"></div>
+      <div class="adaptive-panel" id="adaptive-panel"></div>
       <div class="scene-hint" id="scene-hint">⌨ WASD / Arrow keys to move  ·  E to interact  ·  Click objects to learn</div>
     </div>
   </div>
@@ -108,6 +118,8 @@
         <div class="example-de" id="vocab-example-de"></div>
         <div class="example-zh" id="vocab-example-zh"></div>
       </div>
+      <div class="culture-cue" id="culture-cue"></div>
+      <div class="srs-cue" id="srs-cue"></div>
       <div class="vocab-footer">
         <span class="vocab-category-tag" id="vocab-category"></span>
         <div class="vocab-status-row">
@@ -139,6 +151,81 @@
           <div id="dlg-english"></div>
         </div>
         <div id="dlg-options"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       OVERLAY: STUDY MODE
+       ══════════════════════════════════════════════════════ -->
+  <div id="overlay-study" class="overlay hidden">
+    <div class="study-panel">
+      <div class="study-header">
+        <div>
+          <div class="study-title">CHI Study Console · 实验控制台</div>
+          <div class="study-subtitle">Conditions, pre/post tests, interaction logs, and CSV export</div>
+        </div>
+        <button class="study-close" onclick="Game.closeStudy()">✕</button>
+      </div>
+      <div id="study-body" class="study-body"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       OVERLAY: KNOWLEDGE GRAPH
+       ══════════════════════════════════════════════════════ -->
+  <div id="overlay-graph" class="overlay hidden">
+    <div class="graph-panel">
+      <div class="graph-header">
+        <div>
+          <div class="graph-title">Vocabulary Knowledge Graph · 词汇知识图谱</div>
+          <div class="graph-subtitle">Prerequisites, i+1 paths, review state, and cultural clusters</div>
+        </div>
+        <button class="graph-close" onclick="Game.closeGraph()">✕</button>
+      </div>
+      <div class="graph-legend">
+        <span><i class="legend-dot learned"></i>Known</span>
+        <span><i class="legend-dot fuzzy"></i>Fuzzy</span>
+        <span><i class="legend-dot unknown"></i>Unknown</span>
+        <span><i class="legend-dot new"></i>Unseen</span>
+        <span><i class="legend-ring"></i>i+1 recommendation</span>
+      </div>
+      <div class="graph-body" id="graph-body"></div>
+      <div class="graph-inspector" id="graph-inspector"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       OVERLAY: LEARNING THEORY
+       ══════════════════════════════════════════════════════ -->
+  <div id="overlay-theory" class="overlay hidden">
+    <div class="theory-panel">
+      <div class="theory-header">
+        <div>
+          <div class="theory-title">Theory-Driven Learning Design · 理论驱动设计</div>
+          <div class="theory-subtitle">Each game mechanic maps to one observable SLA/CALL claim</div>
+        </div>
+        <button class="theory-close" onclick="Game.closeTheory()">✕</button>
+      </div>
+      <div id="theory-list" class="theory-list"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       OVERLAY: OUTPUT CHALLENGE
+       ══════════════════════════════════════════════════════ -->
+  <div id="overlay-output" class="overlay hidden">
+    <div class="output-card">
+      <button class="card-close output-close" onclick="Game.cancelOutputChallenge()">✕</button>
+      <div class="output-kicker">Output Challenge · 产出任务</div>
+      <div class="output-prompt" id="output-prompt"></div>
+      <div class="output-target" id="output-target"></div>
+      <div class="word-bank" id="output-word-bank"></div>
+      <input id="output-answer" class="output-answer" autocomplete="off" placeholder="Type the German sentence here">
+      <div class="output-feedback" id="output-feedback"></div>
+      <div class="output-actions">
+        <button class="output-secondary" onclick="Game.cancelOutputChallenge()">Stay and practice</button>
+        <button class="output-primary" onclick="Game.checkOutputChallenge()">Check</button>
       </div>
     </div>
   </div>
@@ -206,7 +293,7 @@
 <script>
   // Inject the illustrated map SVG once DOM is ready
   document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('map-svg-wrapper').innerHTML = MAP_SVG;
+    Game.renderMap();
     // Second lang-toggle button on map mirrors the first
     const btnMap = document.getElementById('lang-toggle-btn-map');
     if (btnMap) btnMap.textContent = T[LANG.current === 'en' ? 'en' : 'zh'].lang_toggle;

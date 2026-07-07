@@ -19,6 +19,7 @@ const MAP_SVG = `
   <clipPath id="cpTUM"><circle r="33"/></clipPath>
   <clipPath id="cpEG"><circle r="33"/></clipPath>
   <clipPath id="cpHB"><circle r="33"/></clipPath>
+  <clipPath id="cpHBF"><circle r="33"/></clipPath>
   <radialGradient id="mVig" cx="50%" cy="50%" r="72%">
     <stop offset="55%" stop-color="transparent"/>
     <stop offset="100%" stop-color="rgba(15,25,50,0.4)"/>
@@ -308,6 +309,34 @@ const MAP_SVG = `
   <g transform="translate(0, 49)">
     <rect x="-52" y="-13" width="104" height="26" fill="#C83200" rx="12"/>
     <text x="0" y="5" text-anchor="middle" font-size="11.5" font-weight="bold" fill="white" font-family="Arial">Hofbräuhaus</text>
+  </g>
+</g>
+
+<!-- Hauptbahnhof -->
+<g id="pin-hauptbahnhof" class="map-pin" onclick="Game.enterScene('hauptbahnhof')" style="cursor:pointer" transform="translate(238,374)">
+  <circle r="55" fill="#455A64" opacity="0">
+    <animate attributeName="r" values="36;55;36" dur="2.6s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.22;0;0.22" dur="2.6s" repeatCount="indefinite"/>
+  </circle>
+  <ellipse cx="0" cy="42" rx="36" ry="9" fill="rgba(0,0,0,0.25)"/>
+  <circle r="36" fill="white" stroke="#455A64" stroke-width="5" filter="url(#mSh)"/>
+  <g clip-path="url(#cpHBF)">
+    <rect x="-33" y="-33" width="66" height="66" fill="#DDE6EC"/>
+    <rect x="-28" y="-22" width="56" height="38" fill="#78909C" rx="3"/>
+    <rect x="-23" y="-16" width="12" height="12" fill="#B3E5FC"/>
+    <rect x="-5" y="-16" width="12" height="12" fill="#B3E5FC"/>
+    <rect x="13" y="-16" width="12" height="12" fill="#B3E5FC"/>
+    <rect x="-18" y="4" width="36" height="12" fill="#ECEFF1"/>
+    <text x="0" y="13" text-anchor="middle" font-size="10" font-weight="bold" fill="#263238" font-family="Arial">Hbf</text>
+    <path d="M -30,24 H30" stroke="#455A64" stroke-width="5"/>
+    <path d="M -24,29 H24" stroke="#263238" stroke-width="3"/>
+  </g>
+  <circle r="36" fill="none" stroke="#90A4AE" stroke-width="2.5"/>
+  <circle cx="0" cy="-36" r="3" fill="#455A64"/><circle cx="36" cy="0" r="3" fill="#455A64"/>
+  <circle cx="0" cy="36" r="3" fill="#455A64"/><circle cx="-36" cy="0" r="3" fill="#455A64"/>
+  <g transform="translate(0, 49)">
+    <rect x="-58" y="-13" width="116" height="26" fill="#455A64" rx="12"/>
+    <text x="0" y="5" text-anchor="middle" font-size="11" font-weight="bold" fill="white" font-family="Arial">Hauptbahnhof</text>
   </g>
 </g>
 
@@ -1239,6 +1268,111 @@ hofbraeuhaus: `
 
 <!-- Ground shadow line -->
 <rect x="0" y="388" width="1800" height="8" fill="rgba(0,0,0,0.2)" rx="2"/>
+</svg>`,
+
+// ── Hauptbahnhof ────────────────────────────────────────────────
+hauptbahnhof: `
+<svg viewBox="0 0 1800 480" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+<defs>
+  <linearGradient id="hbfsSky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#6FA9D8"/><stop offset="70%" stop-color="#D8ECF8"/>
+  </linearGradient>
+  <linearGradient id="hbfsHall" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#ECEFF1"/><stop offset="100%" stop-color="#B0BEC5"/>
+  </linearGradient>
+  <linearGradient id="hbfsFloor" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#A7B1BA"/><stop offset="100%" stop-color="#6D7882"/>
+  </linearGradient>
+</defs>
+<rect width="1800" height="480" fill="url(#hbfsSky)"/>
+
+<!-- glass station hall -->
+<rect x="0" y="90" width="1800" height="250" fill="url(#hbfsHall)"/>
+<path d="M0 115 Q450 15 900 105 T1800 110 V155 H0Z" fill="#CFD8DC"/>
+<g stroke="#90A4AE" stroke-width="4" opacity=".65">
+  <line x1="0" y1="155" x2="1800" y2="155"/>
+  <line x1="0" y1="215" x2="1800" y2="215"/>
+  <line x1="0" y1="275" x2="1800" y2="275"/>
+  <line x1="120" y1="90" x2="120" y2="340"/>
+  <line x1="320" y1="72" x2="320" y2="340"/>
+  <line x1="520" y1="58" x2="520" y2="340"/>
+  <line x1="720" y1="70" x2="720" y2="340"/>
+  <line x1="920" y1="102" x2="920" y2="340"/>
+  <line x1="1120" y1="75" x2="1120" y2="340"/>
+  <line x1="1320" y1="58" x2="1320" y2="340"/>
+  <line x1="1520" y1="78" x2="1520" y2="340"/>
+</g>
+
+<!-- big sign -->
+<g transform="translate(210,122)">
+  <rect x="-110" y="-24" width="220" height="48" rx="8" fill="#263238"/>
+  <text x="0" y="6" text-anchor="middle" font-size="22" font-weight="900" fill="white" font-family="Arial">München Hbf</text>
+</g>
+
+<!-- timetable board -->
+<g transform="translate(1360,145)">
+  <rect x="-110" y="-55" width="220" height="110" rx="8" fill="#202B33"/>
+  <text x="-88" y="-28" font-size="16" font-weight="900" fill="#F5C842" font-family="Arial">Abfahrt</text>
+  <text x="18" y="-28" font-size="16" font-weight="900" fill="#8FD6FF" font-family="Arial">Ankunft</text>
+  <g font-size="12" font-family="Arial" fill="#E8F4FD">
+    <text x="-88" y="0">10:04 Nürnberg</text>
+    <text x="-88" y="24">10:18 Augsburg</text>
+    <text x="18" y="0">10:12 Salzburg</text>
+    <text x="18" y="24">10:25 Berlin</text>
+  </g>
+</g>
+
+<!-- ticket machines -->
+<g transform="translate(980,285)">
+  <rect x="-40" y="-80" width="80" height="125" rx="8" fill="#C62828" stroke="#8E1B1B" stroke-width="4"/>
+  <rect x="-28" y="-66" width="56" height="34" rx="4" fill="#B3E5FC"/>
+  <rect x="-26" y="-18" width="52" height="12" rx="3" fill="#ECEFF1"/>
+  <circle cx="-16" cy="20" r="8" fill="#F5C842"/><circle cx="14" cy="20" r="8" fill="#F5C842"/>
+  <text x="0" y="-43" text-anchor="middle" font-size="10" font-weight="900" fill="#263238" font-family="Arial">Ticket</text>
+</g>
+
+<!-- train -->
+<g transform="translate(470,300)">
+  <rect x="-220" y="-58" width="440" height="88" rx="18" fill="#ECEFF1" stroke="#78909C" stroke-width="5"/>
+  <rect x="-208" y="-48" width="416" height="32" rx="10" fill="#B3E5FC"/>
+  <rect x="-170" y="-46" width="56" height="28" rx="4" fill="#E1F5FE"/>
+  <rect x="-90" y="-46" width="56" height="28" rx="4" fill="#E1F5FE"/>
+  <rect x="-10" y="-46" width="56" height="28" rx="4" fill="#E1F5FE"/>
+  <rect x="70" y="-46" width="56" height="28" rx="4" fill="#E1F5FE"/>
+  <rect x="150" y="-46" width="40" height="62" rx="5" fill="#CFD8DC"/>
+  <path d="M-220 6 H220" stroke="#C62828" stroke-width="8"/>
+  <circle cx="-150" cy="35" r="17" fill="#37474F"/><circle cx="150" cy="35" r="17" fill="#37474F"/>
+  <text x="-196" y="0" font-size="17" font-weight="900" fill="#263238" font-family="Arial">ICE</text>
+</g>
+
+<!-- platforms and floor -->
+<rect x="0" y="340" width="1800" height="140" fill="url(#hbfsFloor)"/>
+<g stroke="#455A64" stroke-width="5" opacity=".65">
+  <line x1="0" y1="378" x2="1800" y2="378"/>
+  <line x1="0" y1="410" x2="1800" y2="410"/>
+  <line x1="0" y1="442" x2="1800" y2="442"/>
+</g>
+<g stroke="#263238" stroke-width="4">
+  <line x1="610" y1="360" x2="850" y2="420"/>
+  <line x1="650" y1="360" x2="890" y2="420"/>
+</g>
+
+<!-- luggage cluster -->
+<g transform="translate(1160,342)">
+  <rect x="-26" y="-34" width="52" height="62" rx="8" fill="#5D4037" stroke="#3E2723" stroke-width="3"/>
+  <rect x="-12" y="-44" width="24" height="12" rx="5" fill="none" stroke="#3E2723" stroke-width="3"/>
+  <circle cx="-14" cy="31" r="4" fill="#263238"/><circle cx="14" cy="31" r="4" fill="#263238"/>
+</g>
+
+<!-- platform labels -->
+<g font-family="Arial" font-weight="900">
+  <rect x="650" y="210" width="95" height="38" rx="8" fill="#263238"/>
+  <text x="697" y="235" text-anchor="middle" font-size="20" fill="white">Gleis 5</text>
+  <rect x="1425" y="250" width="105" height="34" rx="8" fill="#E8F4FD" stroke="#78909C" stroke-width="2"/>
+  <text x="1478" y="273" text-anchor="middle" font-size="16" fill="#263238">Abfahrt</text>
+  <rect x="1545" y="250" width="105" height="34" rx="8" fill="#E8F4FD" stroke="#78909C" stroke-width="2"/>
+  <text x="1598" y="273" text-anchor="middle" font-size="16" fill="#263238">Ankunft</text>
+</g>
 </svg>`,
 
 }; // end SCENE_SVGS

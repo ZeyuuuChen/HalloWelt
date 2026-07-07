@@ -161,4 +161,12 @@ function applyLanguage() {
   if (document.getElementById('overlay-knowledge').classList.contains('visible')) {
     Game.renderKnowledge();
   }
+  if (typeof Game !== 'undefined') {
+    Game.renderAdaptivePanel();
+    Game.renderReviewDock();
+    Game.renderMap();
+    if (document.getElementById('overlay-graph').classList.contains('visible')) Game.renderKnowledgeGraph();
+    if (document.getElementById('overlay-theory').classList.contains('visible')) Game.renderTheory();
+    if (document.getElementById('overlay-study').classList.contains('visible')) Game.renderStudy();
+  }
 }
